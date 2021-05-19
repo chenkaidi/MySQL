@@ -8,7 +8,7 @@ CentOS Linux release 7.5.1804 (Core)
 3.10.0-862.el7.x86_64
 
 ### 二、   下载对应版本的MySQL安装文件
-1、下载地址；https://centos.pkgs.org/7/mysql-5.7-x86_64/
+1、下载地址: https://centos.pkgs.org/7/mysql-5.7-x86_64/
 
 2、选择对应的Linux版本和x86/x64进行下载
 
