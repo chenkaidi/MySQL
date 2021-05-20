@@ -1,11 +1,11 @@
 # centos7下安装mysql5.7（rpm）
 
 ### 一、查看linux操作系统版本和系统内核版本
-
+```
 [root@nfs_client ~]# cat /etc/redhat-release     查看操作系统版本
 CentOS Linux release 7.5.1804 (Core) 
 [root@nfs_client ~]# uname -r               查看系统内核版本
-3.10.0-862.el7.x86_64
+3.10.0-862.el7.x86_64```
 
 ### 二、   下载对应版本的MySQL安装文件
 1、下载地址: https://centos.pkgs.org/7/mysql-5.7-x86_64/
