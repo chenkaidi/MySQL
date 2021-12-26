@@ -52,6 +52,7 @@ interactive_timeout = 600
 wait_timeout = 600
 tmp_table_size = 32M
 max_heap_table_size = 32M
+sql_require_primary_key = on
 
 #log settings
 log_timestamps = SYSTEM
