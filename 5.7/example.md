@@ -1,23 +1,28 @@
-### 案例
-案例背景:
+## 案例
 
-硬件及软件环境:
+##### 案例背景:
+
+```硬件及软件环境:
 联想服务器（IBM） 
 磁盘500G 没有raid
 centos 6.8
 mysql 5.6.33  innodb引擎  独立表空间
 备份没有，日志也没开
-
+```
+```
 开发用户专用库:
 jira(bug追踪) 、 confluence(内部知识库)    ------>LNMT
+```
 
-故障描述:
-
+##### 故障描述:
+```
 断电了，启动完成后“/” 只读
 fsck  重启,系统成功启动,mysql启动不了。
 结果：confulence库在  ， jira库不见了
-学员求助内容:
+```
 
+##### 学员求助内容:
+```
 求助：
 这种情况怎么恢复？
 我问：
@@ -33,17 +38,20 @@ fsck  重启,系统成功启动,mysql启动不了。
 
 问：有没有工具能直接读取ibd
 我说：我查查，最后发现没有
+```
 
-我想出一个办法来：
-
+##### 我想出一个办法来：
+```
 表空间迁移:
 create table xxx
 alter table  confulence.t1 discard tablespace;
 alter table confulence.t1 import tablespace;
 虚拟机测试可行。
-处理问题思路:
+```
 
+##### 处理问题思路:
 
+```
 confulence库中一共有107张表。
 1、创建107和和原来一模一样的表。
 他有2016年的历史库，我让他去他同时电脑上 mysqldump备份confulence库
@@ -61,3 +69,4 @@ set foreign_key_checks=0 跳过外键检查。
 select concat('alter table ',table_schema,'.'table_name,' import tablespace;') from information_schema.tables where table_schema='confluence' into outfile '/tmp/discad.sql';
 4、验证数据
 表都可以访问了，数据挽回到了出现问题时刻的状态（2-8）
+```
