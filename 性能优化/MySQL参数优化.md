@@ -21,7 +21,7 @@
 你会发觉这篇文章是一篇宝藏，这些参数都能够自己动手试验一篇基本在外面是可以吊打mysql面试官了。
 
 ### client域：
-1）character_set_client
+##### 1.character_set_client
 推荐设置：
 
 utf8mb4
