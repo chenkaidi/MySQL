@@ -1,0 +1,55 @@
+id: select 识别符
+ 
+select_type:表示select 语句的类型，它可以是下面几种取值
+   simple ：表示简单查询，其中不包括连接查询和子查询
+   primary：表示主查询，或者最外层查询语句
+   union：表示查询的第二个或者后面的查询语句
+   dependent union：连接查询汇总的第2个或后面的select 语句，取决于外面的查询
+   union result：连接查询的结果
+   subquery：子查询的第1个select 语句
+   dependenet subquery： 子查询中第1个select，取决于外面的查询
+   derived：导出表的select（from 子句的子查询）
+ 
+table： 表示查询的表
+ 
+type：表示表的连接类型，下面按照最佳到最差类型顺序介绍各种类型
+   system：系统表，并且只有一行，比如const表
+   const： 数据表最多只有一个匹配行，它将在查询开始时被读取，并在余下的查询优化中作为常量对 
+          待，const表查询速度很快，因为它们只被读取一次，const用于常数值比较primary key或 
+          unionq 索引的所有部分的场合
+   eq_ref: 对于每个来自前面的表的行组合，从该表中读取一行，当一个索引的所有部分都在查询中，使 
+           用并且索引是unique 或 primarykey 时，就可以使用这种类型。  
+              select * 
+              from a 
+              inner join b  on  a.id=b.id
+    ref:对于来自前面表的任意组合，将从该表中读取所有匹配的行，这种类型用于索引即不是unique 也 
+         不是primary key的情况，或者查询中使用了索引列的左子集，即索引中左边的部分列的组合， 
+          ref可以使用= <=>操作符的带索引的列
+    ref_or_null: 该连接类型如同ref，但是添加了mysql可以专门搜索包含null值的行，在解决子查询 
+           中经常使用该连接类型的优化
+              select * from ref_table where key_column=expr or  key_column is null
+    index_merge：该类型表示使用索引合并优化，使用到多个索引
+    unique_subquery: 该类型替换了下面形式的in子查询的ref    valeus in( select  primary_key 
+              from  sigle_table where some_expr), unique_subquery  是一个索引查找函数，可 
+             以完全替换子查询，效率更高
+    index_subquery:
+          该连接类型类似于unique_subquery,可以替换in子查询，但只适合下列形式的子查询中的非唯 
+         一索引value in （select key_column from  single_table where some_expr）
+    range:
+          只检索给定范围的行，使用一个索引来选择行，key列显示使用了那个索引，key_len 包含所有 
+          使用索引的最长关键元素。
+    index：
+          该连接类型与all相同，除了只扫描索引树，但这通常比all快，因为索引文件通常比数控文件 
+          小
+    all：
+      对于前面表的任意行组合，进行完整表扫描，如果表是第一个没有标记const的表，这样性能会不好 
+ 
+possible_keys:  
+        指出mysql能使用那个索引在该表中找到行，如果该列是null，则没有相关的索引，在这种情 
+        况下，可以通过检查where字句来看它是否引用某些列或适合索引
+key：表示查询实际使用到的索引，如果没有选择索引，该列为null
+key_len: 表示mysql选择的索引字段按字节计算的长度，如果是null，则长度为null，注意通过长度可以 
+       判断mysql实际使用多列索引中几个字段
+ref： 表示使用那个列或常数与索引一起来查询记录
+rows：显示mysql在表中进行查询时必须检查的行数
+extra： 表示mysql在处理查询时候的详细信息
