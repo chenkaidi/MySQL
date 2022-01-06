@@ -32,8 +32,12 @@ character_set_server = UTF8MB4
 skip_name_resolve = 1
 #若你的MySQL数据库主要运行在境外，请务必根据实际情况调整本参数
 default_time_zone = "+8:00"
+sql_require_primary_key = on
 
 #performance setttings
+performance_schema = 1
+#performance_schema_instrument = '%memory%=on'
+performance_schema_instrument = '%lock%=on'
 lock_wait_timeout = 3600
 open_files_limit    = 65535
 back_log = 1024
@@ -52,7 +56,9 @@ interactive_timeout = 600
 wait_timeout = 600
 tmp_table_size = 32M
 max_heap_table_size = 32M
-sql_require_primary_key = on
+
+
+
 
 #log settings
 log_timestamps = SYSTEM
@@ -136,6 +142,8 @@ innodb_status_output = 0
 innodb_status_output_locks = 1
 innodb_sort_buffer_size = 67108864
 
+
+
 #innodb monitor settings
 innodb_monitor_enable = "module_innodb"
 innodb_monitor_enable = "module_server"
@@ -152,10 +160,7 @@ innodb_monitor_enable = "module_ibuf_system"
 innodb_monitor_enable = "module_buffer_page"
 innodb_monitor_enable = "module_adaptive_hash"
 
-#pfs settings
-performance_schema = 1
-#performance_schema_instrument = '%memory%=on'
-performance_schema_instrument = '%lock%=on'
+
 
 [mysqldump]
 quick
