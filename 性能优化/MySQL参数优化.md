@@ -203,7 +203,7 @@ explicit_defaults_for_timestamp = 1
 ##### 12.join_buffer_size
 推荐设置：
 
-16M
+64M
 
 作用：
 
@@ -217,7 +217,7 @@ explicit_defaults_for_timestamp = 1
 
 配置实例：
 
-join_buffer_size = 16M
+join_buffer_size = 64M
 
  
 
