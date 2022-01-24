@@ -129,7 +129,11 @@ prepare
 ```
 随机写
 ```
-#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rnd --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
+#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndwr --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
+```
+随机读写
+```
+#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrw --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
 ```
 cleanup
 ```
