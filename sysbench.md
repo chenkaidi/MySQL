@@ -177,6 +177,9 @@ Threads started!
 [ 30s ] reads: 0.00 MiB/s writes: 49.16 MiB/s fsyncs: 0.00/s latency (ms,95%): 66.838
 ```
 ```
+#iostat -mx 3
+```
+```
 Device:         rrqm/s   wrqm/s     r/s     w/s    rMB/s    wMB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 vda               0.00     0.00    0.00 3011.00     0.00    46.74    31.79     3.83    1.27    0.00    1.27   0.33 100.00
 scd0              0.00     0.00    0.00    0.00     0.00     0.00     0.00     0.00    0.00    0.00    0.00   0.00   0.00
