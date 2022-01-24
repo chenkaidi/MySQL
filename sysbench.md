@@ -226,16 +226,62 @@ GRANT ALL PRIVILEGES ON *.* TO 'sbtest'@'%' IDENTIFIED BY 'sbtestpwd';
 
 ##### 准备数据
 ```
-#!/bin/bash
-sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua  --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=10 --report-interval=1 --threads=10 --oltp-point-selects=1 --oltp-simple-ranges=0 --oltp_sum_ranges=0 --oltp_order_ranges=0 --oltp_distinct_ranges=0 --oltp-read-only=on prepare
+#sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua  --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=10 --report-interval=1 --threads=10 --oltp-point-selects=1 --oltp-simple-ranges=0 --oltp_sum_ranges=0 --oltp_order_ranges=0 --oltp_distinct_ranges=0 --oltp-read-only=on prepare
 ```
 
 ##### 运行
+--threads=2
 ```
-[root@dba_test_001 scripts]# cat 2run_sysbench.sh 
-#!/bin/bash
-sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=3600 --report-interval=5 --threads=2 --oltp-test-mode=complex   --oltp-read-only=off run
-[root@dba_test_001 scripts]# 
+#sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=3600 --report-interval=5 --threads=2 --oltp-test-mode=complex   --oltp-read-only=off run
+```
+```
+Threads started!
+
+[ 5s ] thds: 2 tps: 168.74 qps: 3380.90 (r/w/o: 2367.23/675.78/337.89) lat (ms,95%): 20.00 err/s: 0.00 reconn/s: 0.00
+[ 10s ] thds: 2 tps: 167.20 qps: 3343.28 (r/w/o: 2340.05/668.82/334.41) lat (ms,95%): 19.29 err/s: 0.00 reconn/s: 0.00
+[ 15s ] thds: 2 tps: 171.60 qps: 3433.38 (r/w/o: 2403.79/686.40/343.20) lat (ms,95%): 19.29 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 2 tps: 168.60 qps: 3372.41 (r/w/o: 2360.61/674.60/337.20) lat (ms,95%): 20.74 err/s: 0.00 reconn/s: 0.00
+[ 25s ] thds: 2 tps: 172.00 qps: 3439.60 (r/w/o: 2407.80/687.80/344.00) lat (ms,95%): 20.00 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 2 tps: 183.60 qps: 3671.60 (r/w/o: 2570.00/734.40/367.20) lat (ms,95%): 16.41 err/s: 0.00 reconn/s: 0.00
+```
+
+--threads=10
+```
+#sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=3600 --report-interval=5 --threads=10 --oltp-test-mode=complex   --oltp-read-only=off run
+```
+```
+Threads started!
+
+[ 5s ] thds: 10 tps: 390.04 qps: 7831.92 (r/w/o: 5484.90/1564.95/782.07) lat (ms,95%): 38.94 err/s: 0.00 reconn/s: 0.00
+[ 10s ] thds: 10 tps: 357.00 qps: 7135.93 (r/w/o: 4997.95/1423.99/713.99) lat (ms,95%): 42.61 err/s: 0.00 reconn/s: 0.00
+[ 15s ] thds: 10 tps: 402.83 qps: 8065.48 (r/w/o: 5642.87/1616.94/805.67) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 10 tps: 398.83 qps: 7973.48 (r/w/o: 5580.48/1595.34/797.67) lat (ms,95%): 36.89 err/s: 0.00 reconn/s: 0.00
+[ 25s ] thds: 10 tps: 376.21 qps: 7529.32 (r/w/o: 5270.48/1506.42/752.41) lat (ms,95%): 42.61 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 10 tps: 402.99 qps: 8046.75 (r/w/o: 5634.02/1606.95/805.77) lat (ms,95%): 36.24 err/s: 0.00 reconn/s: 0.00
+```
+--threads=50
+```
+#sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --oltp-table-size=1000000 --mysql-table-engine=innodb --oltp-tables-count=10 --mysql-user=sbtest --mysql-password=sbtestpwd --mysql-port=3306 --mysql-host=127.0.0.1 --max-requests=0 --time=3600 --report-interval=5 --threads=50 --oltp-test-mode=complex   --oltp-read-only=off run
+```
+```
+Threads started!
+
+[ 5s ] thds: 50 tps: 450.36 qps: 9144.70 (r/w/o: 6425.17/1808.83/910.70) lat (ms,95%): 164.45 err/s: 0.00 reconn/s: 0.00
+[ 10s ] thds: 50 tps: 452.43 qps: 9053.42 (r/w/o: 6332.23/1816.32/904.86) lat (ms,95%): 179.94 err/s: 0.00 reconn/s: 0.00
+[ 15s ] thds: 50 tps: 447.87 qps: 8983.49 (r/w/o: 6280.64/1807.10/895.75) lat (ms,95%): 176.73 err/s: 0.00 reconn/s: 0.00
+[ 20s ] thds: 50 tps: 433.64 qps: 8671.67 (r/w/o: 6070.41/1733.97/867.29) lat (ms,95%): 179.94 err/s: 0.00 reconn/s: 0.00
+[ 25s ] thds: 50 tps: 431.71 qps: 8589.00 (r/w/o: 6021.94/1704.04/863.02) lat (ms,95%): 189.93 err/s: 0.00 reconn/s: 0.00
+[ 30s ] thds: 50 tps: 434.76 qps: 8735.12 (r/w/o: 6104.98/1760.63/869.51) lat (ms,95%): 183.21 err/s: 0.00 reconn/s: 0.00
+[ 35s ] thds: 50 tps: 462.42 qps: 9195.43 (r/w/o: 6438.90/1831.28/925.24) lat (ms,95%): 173.58 err/s: 0.00 reconn/s: 0.00
+```
+```
+[root@db1 ~]# top (按键盘“1”,显示所有CPU核)
+top - 20:28:37 up 17 days,  1:49,  2 users,  load average: 11.67, 14.84, 14.66
+Tasks: 102 total,   1 running, 101 sleeping,   0 stopped,   0 zombie
+%Cpu0  : 83.6 us, 12.7 sy,  0.0 ni,  0.0 id,  0.3 wa,  0.0 hi,  3.3 si,  0.0 st
+%Cpu1  : 86.4 us, 10.6 sy,  0.0 ni,  0.3 id,  0.0 wa,  0.0 hi,  2.7 si,  0.0 st
+KiB Mem :  3880168 total,   148568 free,  2116008 used,  1615592 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  1512660 avail Mem 
 ```
 
 ##### 清理数据
