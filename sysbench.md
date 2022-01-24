@@ -98,24 +98,9 @@ Threads fairness:
 ### 磁盘IO性能测试
 磁盘I/O（fileio）基准测试可以测试系统在不同I/O负载下的性能。这对于比较不同的硬盘驱动器、不同的RAID卡、不同的RAID模式，都很有帮助。可以根据测试结果来调整/0子系统。文件VO基准测试模拟了很多InnoDB的I/O特性。 测试的第一步是准备（prepare）阶段，生成测试用到的数据文件，生成的数据文件至少要比内存大。如果文件中的数据能完全放入内存中，则操作系统缓存大部分的数据，导致测试结果无法体现I/O密集型的工作负载。首先通过下面的命令创建一个数据集：
 
-##### 例子1
 
-1）生成测试文件,prepare阶段，生成需要的测试文件，完成后会在当前目录下生成很多小文件。
-```
---num-threads 开启的线程 --file-total-size 总的文件大小
 
-sysbench --test=fileio --file-num=10 --file-total-size=5G prepare 表示生成10个5G的文件
-```
-2）run
-```
-sysbench --test=fileio --file-total-size=5G --file-test-mode=rndrw --max-time=180 --max-requests=100000000 --num-threads=16 --init-rng=on --file-num=10 --file-extra-flags=direct --file-fsync-freq=0 --file-block-size=16384 run
-```
-3）清除测试数据
-```
-sysbench --test=fileio --file-num=10 --file-total-size=5G cleanup
-```
-
-##### 例子2 IO随机读测试样例
+##### 例子1 IO随机读测试样例
 
 --创建10G的文件,分成4个,测试16K块大小,使用direct方式读,测试600秒(10分钟),启用64个线程,每3秒输出一次结果
 
@@ -215,8 +200,7 @@ cleanup
 ```
 #sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 cleanup
 ```
-##### 例子3
-
+##### 例子2
 prepare阶段，生成需要的测试文件，完成后会在当前目录下生成很多小文件。
 ```
 sysbench --test=fileio --num-threads=16 --file-total-size=2G --file-test-mode=rndrw prepare
