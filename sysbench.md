@@ -123,17 +123,90 @@ prepare
 ```
 #sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 prepare       
 ```
+```
+[root@db1 ~]# ll
+-rw------- 1 root root 2684354560 Jan 24 19:05 test_file.0
+-rw------- 1 root root 2684354560 Jan 24 19:05 test_file.1
+-rw------- 1 root root 2684354560 Jan 24 19:05 test_file.2
+-rw------- 1 root root 2684354560 Jan 24 19:05 test_file.3
+```
+
 随机读
 ```
 #sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
+```
+```
+Threads started!
+
+[ 3s ] reads: 106.42 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 14.995
+[ 6s ] reads: 93.69 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 9s ] reads: 93.79 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 12s ] reads: 93.77 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 15s ] reads: 93.76 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 18s ] reads: 93.71 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 14.995
+[ 21s ] reads: 93.70 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 24s ] reads: 93.75 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 27s ] reads: 93.77 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 30s ] reads: 93.71 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+[ 33s ] reads: 93.80 MiB/s writes: 0.00 MiB/s fsyncs: 0.00/s latency (ms,95%): 15.268
+```
+```
+#iostat -mx 3
+```
+```
+Device:         rrqm/s   wrqm/s     r/s     w/s    rMB/s    wMB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+vda               0.00     0.00 6000.33    0.00    93.76     0.00    32.00    63.97   10.66   10.66    0.00   0.17 100.00
+scd0              0.00     0.00    0.00    0.00     0.00     0.00     0.00     0.00    0.00    0.00    0.00   0.00   0.00
 ```
 随机写
 ```
 #sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndwr --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
 ```
+```
+Threads started!
+
+[ 3s ] reads: 0.00 MiB/s writes: 54.41 MiB/s fsyncs: 0.00/s latency (ms,95%): 59.993
+[ 6s ] reads: 0.00 MiB/s writes: 54.08 MiB/s fsyncs: 0.00/s latency (ms,95%): 70.548
+[ 9s ] reads: 0.00 MiB/s writes: 45.10 MiB/s fsyncs: 0.00/s latency (ms,95%): 70.548
+[ 12s ] reads: 0.00 MiB/s writes: 47.42 MiB/s fsyncs: 0.00/s latency (ms,95%): 62.193
+[ 15s ] reads: 0.00 MiB/s writes: 50.56 MiB/s fsyncs: 0.00/s latency (ms,95%): 63.323
+[ 18s ] reads: 0.00 MiB/s writes: 55.14 MiB/s fsyncs: 0.00/s latency (ms,95%): 51.945
+[ 21s ] reads: 0.00 MiB/s writes: 47.95 MiB/s fsyncs: 0.00/s latency (ms,95%): 84.467
+[ 24s ] reads: 0.00 MiB/s writes: 41.30 MiB/s fsyncs: 0.00/s latency (ms,95%): 81.479
+[ 27s ] reads: 0.00 MiB/s writes: 51.61 MiB/s fsyncs: 0.00/s latency (ms,95%): 73.135
+[ 30s ] reads: 0.00 MiB/s writes: 49.16 MiB/s fsyncs: 0.00/s latency (ms,95%): 66.838
+```
+```
+Device:         rrqm/s   wrqm/s     r/s     w/s    rMB/s    wMB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+vda               0.00     0.00    0.00 3011.00     0.00    46.74    31.79     3.83    1.27    0.00    1.27   0.33 100.00
+scd0              0.00     0.00    0.00    0.00     0.00     0.00     0.00     0.00    0.00    0.00    0.00   0.00   0.00
+```
+
 随机读写
 ```
 #sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrw --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
+```
+```
+Threads started!
+
+[ 3s ] reads: 56.65 MiB/s writes: 37.90 MiB/s fsyncs: 0.00/s latency (ms,95%): 30.815
+[ 6s ] reads: 71.82 MiB/s writes: 47.70 MiB/s fsyncs: 0.00/s latency (ms,95%): 23.948
+[ 9s ] reads: 68.48 MiB/s writes: 45.73 MiB/s fsyncs: 0.00/s latency (ms,95%): 25.737
+[ 12s ] reads: 65.02 MiB/s writes: 43.36 MiB/s fsyncs: 0.00/s latency (ms,95%): 26.205
+[ 15s ] reads: 61.05 MiB/s writes: 40.83 MiB/s fsyncs: 0.00/s latency (ms,95%): 27.659
+[ 18s ] reads: 62.96 MiB/s writes: 41.94 MiB/s fsyncs: 0.00/s latency (ms,95%): 28.673
+[ 21s ] reads: 69.34 MiB/s writes: 46.25 MiB/s fsyncs: 0.00/s latency (ms,95%): 24.827
+[ 24s ] reads: 55.78 MiB/s writes: 37.06 MiB/s fsyncs: 0.00/s latency (ms,95%): 31.375
+[ 27s ] reads: 52.08 MiB/s writes: 34.73 MiB/s fsyncs: 0.00/s latency (ms,95%): 34.330
+[ 30s ] reads: 54.20 MiB/s writes: 36.07 MiB/s fsyncs: 0.00/s latency (ms,95%): 31.945
+```
+```
+#iostat -mx 3
+```
+```
+Device:         rrqm/s   wrqm/s     r/s     w/s    rMB/s    wMB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+vda               0.00     3.33 3484.33 2320.33    54.44    36.26    32.00     6.24    1.07    0.82    1.45   0.17 100.00
+scd0              0.00     0.00    0.00    0.00     0.00     0.00     0.00     0.00    0.00    0.00    0.00   0.00   0.00
 ```
 cleanup
 ```
