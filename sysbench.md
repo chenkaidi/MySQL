@@ -43,36 +43,95 @@ sysbench --test=/usr/share/sysbench/tests/include/oltp_legacy/oltp.lua --oltp-ta
 
 ### CPU基准测试
 最典型的子系统测试就是CPU基准测试。该测试使用64位整数，测试计算素数直到某个最大值所需要的时间。下面的例子将比较两台不同的GNU/Linux服务器上的测试结果。
+
+第一台服务器配置的CPU：
 ```
-[ server1~] cat/proc/cpuinfo modelname: AMD Opteron(tm) Processor 246
-stepping :1
-cpu MHz :1992.857cache size:1024KB
-```
-在这台服务器上运行如下的测试：
-```
-[server1~]sysbench--test=cpu--cpu-max-prime=20000 run
-sysbench vo.4.8：multithreaded system evaluation benchmark 
-...
-Test execution sumaary:total time：121.74045
-```
-第二台服务器配置了不同的CPU：
-```
-[server2~] cat/proc/cpuinfo 
-model name：Intel（R）Xeon（R）CPU51302.00CHz stepping：6
-cpu WHz：1995.005
+[root@chenkaidi ~]# cat /proc/cpuinfo  |grep name
+model name	: Intel(R) Xeon(R) Platinum 8163 CPU @ 2.50GHz
 ```
 测试结果如下：
 ```
-[server1~] sysbench--test=cpu--cpu-max-prime=20000 run 
-sysbench vo.4.8：multithreaded system evaluation benchmark
-Test execution summary:total time：61.8596s
+[root@chenkaidi ~]# sysbench --test=cpu --cpu-max-prime=20000 run
+WARNING: the --test option is deprecated. You can pass a script name or path on the command line without any options.
+sysbench 1.0.17 (using system LuaJIT 2.0.4)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   320.32
+
+General statistics:
+    total time:                          10.0005s
+    total number of events:              3204
+
+Latency (ms):
+         min:                                    2.78
+         avg:                                    3.12
+         max:                                  203.66
+         95th percentile:                        3.02
+         sum:                                 9996.93
+
+Threads fairness:
+    events (avg/stddev):           3204.0000/0.00
+    execution time (avg/stddev):   9.9969/0.00
+```
+第二台服务器配置的CPU：
+```
+[root@db1 ~]# cat /proc/cpuinfo |grep name
+model name	: Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz
+model name	: Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz
+```
+测试结果如下：
+```
+[root@db1 ~]# sysbench --test=cpu --cpu-max-prime=20000 run
+WARNING: the --test option is deprecated. You can pass a script name or path on the command line without any options.
+sysbench 1.0.20 (using bundled LuaJIT 2.1.0-beta2)
+
+Running the test with following options:
+Number of threads: 1
+Initializing random number generator from current time
+
+
+Prime numbers limit: 20000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second:   392.65
+
+General statistics:
+    total time:                          10.0021s
+    total number of events:              3928
+
+Latency (ms):
+         min:                                    2.53
+         avg:                                    2.55
+         max:                                    4.65
+         95th percentile:                        2.57
+         sum:                                 9999.73
+
+Threads fairness:
+    events (avg/stddev):           3928.0000/0.00
+    execution time (avg/stddev):   9.9997/0.00
+
 ```
 测试的结果简单打印出了计算出素数的时间，很容易进行比较。在上面的测试中，第二台服务器的测试结果显示比第一台快两倍。
 
 ### 文件/O基准测试
 文件I/O（fileio）基准测试可以测试系统在不同I/O负载下的性能。这对于比较不同的硬盘驱动器、不同的RAID卡、不同的RAID模式，都很有帮助。可以根据测试结果来调整/0子系统。文件VO基准测试模拟了很多InnoDB的I/O特性。 测试的第一步是准备（prepare）阶段，生成测试用到的数据文件，生成的数据文件至少要比内存大。如果文件中的数据能完全放入内存中，则操作系统缓存大部分的数据，导致测试结果无法体现I/O密集型的工作负载。首先通过下面的命令创建一个数据集：
 ```
-sysbench--test=fileio--file-total-size=150G prepare
+sysbench --test=fileio --file-total-size=150G prepare
 ```
 这个命令会在当前工作目录下创建测试文件，后续的运行（run）阶段将通过读写这些文件进行测试。
 
@@ -92,8 +151,8 @@ seqrd
 
 混合随机读/写。 下面的命令运行文件I/O混合随机读/写基准测试：
 ```
-sysbench--test=fileio--file-total-size=15o6--file-test-mode=rndrn/
---init-rng=on--max-time=300--max-requests=0 run
+sysbench --test=fileio --file-total-size=15o6 --file-test-mode=rndrn/
+--init-rng=on --max-time=300 --max-requests=0 run
 ```
 ​
 结果如下：
@@ -121,21 +180,21 @@ execution time（avg/stddev）：254.4601/0.00
 ```
 输出结果中包含了大量的信息。和I/0子系统密切相关的包括每秒请求数和总吞吐量。 在上述例子中，每秒请求数是223.67 Requests/sec，吞吐量是3.4948MB/sec。另外，时间信息也非常有用，尤其是大约95%的时间分布。这些数据对于评估磁盘性能十分有用。 测试完成后，运行清除（cleanup）操作删除第一步生成的测试文件：
 ```
-sysbench--testafileio--file-total-size=15oc cleanup
+sysbench --testafileio --file-total-size=15oc cleanup
 ```
 ### OLTP基准测试
 
 OLTP基准测试模拟了一个简单的事务处理系统的工作负载。下面的例子使用的是一张 超过百万行记录的表，第一步是先生成这张表：
 ```
-$sysbench--test=oltp--oltp-table-size=1000000--mysq1-db=test/
+$sysbench --test=oltp --oltp-table-size=1000000 --mysq1-db=test/
 -mysql-user=root prepare 
 ```
 sysbench vo.4.8：multithreaded system evaluation benchmark
 
 No DB drivers specified，using mysql Creating tablesbtest... Creating 1000000 records in table‘sbtest... 生成测试数据只需要上面这条简单的命令即可。接下来可以运行测试，这个例子采用了 8个并发线程，只读模式，测试时长60秒：
 ```
-$sysbench--test=oltp--oltp-table-size=1000000--mysq1-db=test--mysql-user=root/
--max-time=60--oltp-read-only=on--max-requests=0--nun-threads=8 run 
+$sysbench --test=oltp --oltp-table-size=1000000 --mysq1-db=test --mysql-user=root/
+-max-time=60 --oltp-read-only=on --max-requests=0 --nun-threads=8 run 
 ```
 ​
 ```
