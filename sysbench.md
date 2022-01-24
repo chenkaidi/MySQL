@@ -121,11 +121,11 @@ sysbench --test=fileio --file-num=10 --file-total-size=5G cleanup
 
 prepare
 ```
-#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 prepare       
+#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 prepare       
 ```
 run
 ```
-#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
+#sysbench --test=fileio --file-num=4 --file-block-size=16384 --file-total-size=10G --file-test-mode=rndrd --file-extra-flags=direct --file-fsync-freq=0 --max-requests=0 --max-time=600 --num-threads=64 --report-interval=3 run
 ```
 cleanup
 ```
