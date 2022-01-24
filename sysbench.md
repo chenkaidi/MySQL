@@ -131,7 +131,7 @@ Threads fairness:
 ### 文件/O基准测试
 文件I/O（fileio）基准测试可以测试系统在不同I/O负载下的性能。这对于比较不同的硬盘驱动器、不同的RAID卡、不同的RAID模式，都很有帮助。可以根据测试结果来调整/0子系统。文件VO基准测试模拟了很多InnoDB的I/O特性。 测试的第一步是准备（prepare）阶段，生成测试用到的数据文件，生成的数据文件至少要比内存大。如果文件中的数据能完全放入内存中，则操作系统缓存大部分的数据，导致测试结果无法体现I/O密集型的工作负载。首先通过下面的命令创建一个数据集：
 ```
-sysbench --test=fileio --file-total-size=150G prepare
+sysbench --test=fileio --file-total-size=10G prepare
 ```
 这个命令会在当前工作目录下创建测试文件，后续的运行（run）阶段将通过读写这些文件进行测试。
 
@@ -151,8 +151,8 @@ seqrd
 
 混合随机读/写。 下面的命令运行文件I/O混合随机读/写基准测试：
 ```
-sysbench --test=fileio --file-total-size=15o6 --file-test-mode=rndrn/
---init-rng=on --max-time=300 --max-requests=0 run
+sysbench --test=fileio --file-total-size=10G --file-test-mode=rndrn --init-rng=on --max-time=300 --max-requests=0 run
+
 ```
 ​
 结果如下：
@@ -180,7 +180,7 @@ execution time（avg/stddev）：254.4601/0.00
 ```
 输出结果中包含了大量的信息。和I/0子系统密切相关的包括每秒请求数和总吞吐量。 在上述例子中，每秒请求数是223.67 Requests/sec，吞吐量是3.4948MB/sec。另外，时间信息也非常有用，尤其是大约95%的时间分布。这些数据对于评估磁盘性能十分有用。 测试完成后，运行清除（cleanup）操作删除第一步生成的测试文件：
 ```
-sysbench --testafileio --file-total-size=15oc cleanup
+sysbench --testafileio --file-total-size=10G cleanup
 ```
 ### OLTP基准测试
 
