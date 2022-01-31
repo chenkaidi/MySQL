@@ -220,8 +220,16 @@ sysbench --test=fileio --num-threads=20 --file-total-size=2G --file-test-mode=rn
 ##### 创建数据库
 ```
 CREATE DATABASE `sbtest`  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
+```
+##### 授权
+```
+mysql 5.7
 GRANT ALL PRIVILEGES ON *.* TO 'sbtest'@'%' IDENTIFIED BY 'sbtestpwd';
+```
+```
+mysql 8.0
+create user 'sbtest'@'%' identified by 'sbtestpwd';
+GRANT select ON *.* TO 'sbtest'@'%';
 ```
 
 ##### 准备数据
