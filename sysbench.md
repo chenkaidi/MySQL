@@ -229,7 +229,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'sbtest'@'%' IDENTIFIED BY 'sbtestpwd';
 ```
 mysql 8.0
 create user 'sbtest'@'%' identified by 'sbtestpwd';
-GRANT select ON *.* TO 'sbtest'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'sbtest'@'%';
 ```
 
 ##### 准备数据
