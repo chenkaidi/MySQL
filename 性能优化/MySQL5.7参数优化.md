@@ -11,7 +11,7 @@ https://blog.csdn.net/lifetragedy/article/details/105944790
 有些参数怎么算、算法又如何
 这种style来写的，相信此篇会对一些使用mysql的尤其是正在或者将要面临万级并发的项目、网站有所帮助。具体请看文档！
 
-##### 一千个DBA就有一千种配置方式!
+### 一千个DBA就有一千种配置方式!
 
 大家一定记得不要轻易去看网上，要看只看官网！网上很多博客都是错的，连参数都列错了，5.7很多参数和5.6是完全不一样的。
 
@@ -21,8 +21,8 @@ https://blog.csdn.net/lifetragedy/article/details/105944790
 
 你会发觉这篇文章是一篇宝藏，这些参数都能够自己动手试验一篇基本在外面是可以吊打mysql面试官了。
 
-### client域：
-##### 1.character_set_client
+## client域：
+#### 1.character_set_client
 推荐设置：
 
 utf8mb4
@@ -39,8 +39,8 @@ mysql不支持前端app存表情等字符
 
 character_set_client=utf8mb4
 
-### mysqld域：
-##### 4.autocommit
+## mysqld域：
+#### 4.autocommit
 推荐设置：
 
 作用：
@@ -57,7 +57,7 @@ a运行一条insert语句，并未作commit;b去做查询此时b是查询不到�
 
 autocommit = 1
 
-##### 5.character_set_server
+#### 5.character_set_server
 推荐设置：
 
 utf8mb4
@@ -74,7 +74,7 @@ mysql不支持前端app存表情等字符
 
 character_set_server=utf8mb4
 
-##### 6.skip_name_resolve
+#### 6.skip_name_resolve
 推荐设置：
 
 1
@@ -93,7 +93,7 @@ mysql server每一次会对客户端连接使用反向dns解析，经常会出�
 
 skip_name_resolve=1
 
-##### 7.max_connections
+#### 7.max_connections
 推荐设置：
 
 5,000
@@ -131,7 +131,7 @@ systemctl restart mysqld.service
 
 max_connections = 5,000
 
-##### 9.innodb_flush_log_at_trx_commit
+#### 9.innodb_flush_log_at_trx_commit
 推荐设置：
 
 2
@@ -155,7 +155,7 @@ max_connections = 5,000
 
 innodb_flush_log_at_trx_commit=2
 
-##### 10.transaction_isolation
+#### 10.transaction_isolation
 推荐设置：
 
 READ-COMMITTED
@@ -179,7 +179,7 @@ Read-Committed-推荐: 事务无法看到来自其他事务的未提交数据，
 
 transaction_isolation = READ-COMMITTED
 
-##### 11.explicit_defaults_for_timestamp
+#### 11.explicit_defaults_for_timestamp
 推荐设置：
 
 1
@@ -201,7 +201,7 @@ explicit_defaults_for_timestamp 变量会直接影响表结构，也就是说exp
 
 explicit_defaults_for_timestamp = 1
 
-##### 12.join_buffer_size
+#### 12.join_buffer_size
 推荐设置：
 
 64M
@@ -222,7 +222,7 @@ join_buffer_size = 64M
 
  
 
-##### 13.tmp_table_size
+#### 13.tmp_table_size
 推荐设置：
 
 64M
@@ -247,7 +247,7 @@ set global tmp_table_size=64*1024*1024而不是set global tmp_table_size=64M。
 
 tmp_table_size = 64M
 
-##### 15.max_allowed_packet
+#### 15.max_allowed_packet
 推荐设置：
 
 128M
@@ -268,7 +268,7 @@ show variables like '%max_allowed_packet%';来查看这个值，这个值没有�
 
 max_allowed_packet = 128M
 
-##### 17.interactive_timeout
+#### 17.interactive_timeout
 推荐设置：
 
 600
@@ -301,10 +301,10 @@ show global variables like 'wait_timeout';
 
 interactive_timeout = 600
 
-##### 18.wait_timeout
+#### 18.wait_timeout
 同interactive_timeout，两个值都设成一样。
 
-##### 20.read_rnd_buffer_size
+#### 20.read_rnd_buffer_size
 推荐设置：
 
 8388608
@@ -321,7 +321,7 @@ interactive_timeout = 600
 
 read_rnd_buffer_size = 8M
 
-##### 21.sort_buffer_size
+#### 21.sort_buffer_size
 推荐设置：
 
 16M
@@ -338,7 +338,7 @@ read_rnd_buffer_size = 8M
 
 sort_buffer_size =16M
 
-##### 23.innodb_buffer_pool_size
+#### 23.innodb_buffer_pool_size
 推荐设置：
 
 宿主机内存70%
@@ -355,7 +355,7 @@ pool_instances其实为cpu核数，它的作用是：
 
 innodb_buffer_pool_size的设置需要为pool_instance的整数倍。
 
-##### 28.innodb_lock_wait_timeout
+#### 28.innodb_lock_wait_timeout
 推荐设置：
 
 60
@@ -382,7 +382,7 @@ SHOW GLOBAL VARIABLES LIKE 'innodb_lock_wait_timeout';
 
 innodb_lock_wait_timeout = 60
 
-##### 29.innodb_io_capacity_max
+#### 29.innodb_io_capacity_max
 推荐设置：
 
 8000
@@ -405,14 +405,14 @@ innodb_lock_wait_timeout = 60
 
 innodb_io_capacity_max = 8000
 
-##### 30.innodb_io_capacity
+#### 30.innodb_io_capacity
 它是io_capacity_max的一半，同样，它对读无效对写有决定意义。
 
 配置实例：
 
 innodb_io_capacity_max = 4000
 
-##### 31.innodb_flush_method
+#### 31.innodb_flush_method
 推荐设置：
 
 O_DIRECT
@@ -435,7 +435,7 @@ O_DIRECT
 
 innodb_flush_method = O_DIRECT
 
-##### 39.innodb_log_file_size
+#### 39.innodb_log_file_size
 推荐设置：
 
 第1步：show engine innodb status;
@@ -473,7 +473,7 @@ Last checkpoint at 2724318261
 
 innodb_log_file_size = 1G
 
-##### 40.innodb_log_buffer_size
+#### 40.innodb_log_buffer_size
 推荐设置：
 
 16777216
@@ -494,7 +494,7 @@ innodb_log_file_size = 1G
 
 innodb_log_buffer_size = 32M
 
-##### 42.innodb_large_prefix
+#### 42.innodb_large_prefix
 推荐设置：
 
 1
@@ -513,7 +513,7 @@ innodb_log_buffer_size = 32M
 
 innodb_large_prefix = 1
 
-##### 43.innodb_thread_concurrency
+#### 43.innodb_thread_concurrency
 推荐设置：
 
 装mysql的服务器的cpu的核数
@@ -532,7 +532,7 @@ innodb_large_prefix = 1
 
 innodb_thread_concurrency = 64
 
-##### 44.innodb_print_all_deadlocks
+#### 44.innodb_print_all_deadlocks
 推荐设置：
 
 1
@@ -551,7 +551,7 @@ innodb_thread_concurrency = 64
 
 innodb_print_all_deadlocks = 1
 
-##### 45.innodb_strict_mode
+#### 45.innodb_strict_mode
 推荐设置：
 
 1
@@ -568,25 +568,25 @@ innodb_print_all_deadlocks = 1
 
 innodb_strict_mode = 1
 
-##### 46.log_error
+#### 46.log_error
 error log所在位置，这个不用多讲，可以和mysql log放在同一路径下，文件名能够和其它log区分开来。
 
-##### 47.slow_query_log
+#### 47.slow_query_log
 建议开启
 
-##### 48.slow_query_log_file
+#### 48.slow_query_log_file
 慢sql所在位置，这个不用多讲，可以和mysql log放在同一路径下，文件名能够和其它log区分开来。
 
-##### 49.log_queries_not_using_indexes=1
+#### 49.log_queries_not_using_indexes=1
 强烈建议开启成1.
 
-##### 50.log_slow_admin_statements = 1
+#### 50.log_slow_admin_statements = 1
 强烈建议开启成1.
 
-##### 51.log_slow_slave_statements = 1
+#### 51.log_slow_slave_statements = 1
 强烈建议开启成1.
 
-##### 52.log_throttle_queries_not_using_indexes
+#### 52.log_throttle_queries_not_using_indexes
 推荐设置：
 
 在一开始上线后的初期我们会开成30～50条。随着性能逐渐优化我们会把这个数量开成10.
@@ -601,7 +601,7 @@ error log所在位置，这个不用多讲，可以和mysql log放在同一路�
 
 log_throttle_queries_not_using_indexes = 50
 
-##### 53.expire_logs_days 
+#### 53.expire_logs_days 
 推荐设置：
 
 30
@@ -615,7 +615,7 @@ log_throttle_queries_not_using_indexes = 50
 
 expire_logs_days = 30
 
-##### 54.long_query_time
+#### 54.long_query_time
 推荐设置：
 
 1
@@ -629,10 +629,10 @@ expire_logs_days = 30
 
 long_query_time = 1
 
-##### 58.log_bin = bin.log
+#### 58.log_bin = bin.log
 主从复制时用，主从复制下的bin.log日志所在文件夹。
 
-##### 59.sync_binlog
+#### 59.sync_binlog
 推荐设置：
 
 1
@@ -653,7 +653,7 @@ long_query_time = 1
 
 sync_binlog = 1
 
-##### 60.gtid_mode
+#### 60.gtid_mode
 推荐设置：
 
 on
@@ -671,7 +671,7 @@ on
 
 gtid_mode = on
 
-##### 63.binlog_format
+#### 63.binlog_format
 
 推荐设置：
 
@@ -716,10 +716,10 @@ row
 
 binlog_format = row
 
-##### 64.relay_log
+#### 64.relay_log
 主从复制用，定义relay_log的位置和名称，如果值为空，则默认位置在数据文件的目录（datadir），文件名为host_name-relay-bin.nnnnnn（By default, relay log file names have the form host_name-relay-bin.nnnnnn in the data directory）
 
-##### 65.relay_log_recovery
+#### 65.relay_log_recovery
 推荐设置：
 
 1
@@ -736,7 +736,7 @@ binlog_format = row
 
 relay_log_recovery = 1
 
-##### 66.slave_skip_errors
+#### 66.slave_skip_errors
 推荐设置：
 
 ddl_exist_errors
@@ -755,7 +755,7 @@ ddl_exist_errors
 
 slave_skip_errors = ddl_exist_errors
 
-##### 70.innodb_max_undo_log_size
+#### 70.innodb_max_undo_log_size
 推荐设置：
 
 推荐在默认值的2倍（默认为1GB）
@@ -778,7 +778,7 @@ slave_skip_errors = ddl_exist_errors
 
 innodb_max_undo_log_size=2G
 
-##### 71.innodb_purge_rseg_truncate_frequency
+#### 71.innodb_purge_rseg_truncate_frequency
 推荐设置：
 
 128
@@ -792,7 +792,7 @@ innodb_max_undo_log_size=2G
 
 innodb_purge_rseg_truncate_frequency=128
 
-##### 72.binlog_gtid_simple_recovery
+#### 72.binlog_gtid_simple_recovery
 推荐设置：
 
 建议开启
@@ -811,7 +811,7 @@ innodb_purge_rseg_truncate_frequency=128
 
 binlog_gtid_simple_recovery=1
 
-##### 73.log_timestamps
+#### 73.log_timestamps
 推荐设置：
 
 system
