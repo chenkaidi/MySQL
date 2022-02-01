@@ -129,7 +129,7 @@ systemctl restart mysqld.service
 
 配置实例：
 
-max_connections = 5,000
+max_connections = 5000
 
 #### 9.innodb_flush_log_at_trx_commit
 推荐设置：
