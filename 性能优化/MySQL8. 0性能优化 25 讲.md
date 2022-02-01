@@ -1,10 +1,10 @@
-## MySQL 8. 0 性能优化 25 讲
+# MySQL 8. 0 性能优化 25 讲  
 
-# 姚远
+## 姚远 
 
 
 ### MySQL 8 性能优化系列课程内容
-
+```
 1. 数据库优化的重要性
 2. 设置系统参数
 3. 内存的分配
@@ -18,8 +18,6 @@
 11 .性能视图找出TOP SQL
 12 .sys数据库中的存储过程找出TOP SQL
 13 .SQL语句的执行计划
-
-```
 14 .SQL执行性能的评估
 15 .解密MySQL的优化器
 16 .使用hint改变执行计划
@@ -55,10 +53,6 @@ yaoyuanace，个人公众号：数据慧眼。
 讲义下载：关注我的个人公众号“数据慧眼”可以得到我的讲义下载链接，讲义内容后续将持续更新。
 
 
-### 最新课程请联系我
-
-
-## 姚远
 
 ### MySQL 8 优化 —— 实例优化和参数设置
 
@@ -85,9 +79,6 @@ innodb_dedicated_server参数
 硬盘读写参数
 其他参数
 资源组
-
-
-### 典型应用的架构
 
 
 ### 应用服务器的性能特点
@@ -587,13 +578,13 @@ MySQL很方便，当调整了内存的大小后，MySQL会在启动时自动调�
 
 #### innodb_buffer_pool_size 根据物理内存的设置策略
 
-内存大小 innodb_buffer_pool_size的值
+内存大小    innodb_buffer_pool_size的值
 
-小于 1 GB 128 MB
+小于1GB     128 MB
 
-1 GB到 4 GB 物理内存× 0. 5
+1GB到4GB    物理内存× 0. 5
 
-大于 4 GB 物理内存× 0. 75
+大于4GB     物理内存× 0. 75
 
 
 ### innodb_log_file_size 设置策略
@@ -603,9 +594,9 @@ innodb_log_file_size和innodb_log_files_in_group两个参数是根据innodb_buff
 
 ```
 innodb_buffer_pool_size innodb_log_file_size
-小于 8 GB 512 MB
-8 GB到 16 GB 1024 MB
-大于 16 GB 2 GB
+小于 8 GB                512 MB
+8 GB到 16 GB             1024 MB
+大于 16 GB               2 GB
 ```
 
 ### innodb_log_file_in_group 设置策略
@@ -613,9 +604,9 @@ innodb_buffer_pool_size innodb_log_file_size
 innodb_buffer_pool_size innodb_log_files_in_group
 
 ```
-小于 8 GB 以GB为单位对innodb_buffer_pool_size取整
-8 GB到 128 GB 以GB为单位对（innodb_buffer_pool_size* 0. 75 ）取整
-大于 128 GB 64
+小于 8 GB              以GB为单位对innodb_buffer_pool_size取整
+8 GB到 128 GB          以GB为单位对（innodb_buffer_pool_size* 0. 75 ）取整
+大于 128 GB             64
 ```
 
 ### 显式设置的参数优先生效
@@ -3520,7 +3511,7 @@ cur.FirstOfMonth - INTERVAL 1 MONTH ORDER BY cur.FirstOfMonth;
 
 
 ### 使用 CTE 的执行计划
-
+```
 | - > Nested loop left join (cost= 40325. 00 rows= 0 )
 
 - > Sort: cur.FirstOfMonth
@@ -3536,10 +3527,10 @@ cur.FirstOfMonth - INTERVAL 1 MONTH ORDER BY cur.FirstOfMonth;
 - > Index lookup on prev using <auto_key 0 > (FirstOfMonth=(cur.FirstOfMonth - interval 1 month))
 - > Materialize CTE monthly_sales if needed (query plan printed elsewhere) (cost= 0. 00 .. 0. 00 rows= 0 )
 |
-
+```
 
 ### 不使用 CTE 的执行计划
-
+```
 - > Nested loop left join (cost= 40325. 00 rows= 0 )
 - > Sort: cur.FirstOfMonth
 - > Table scan on cur (cost= 1816. 56 rows= 16125 )
@@ -3559,7 +3550,7 @@ cur.FirstOfMonth - INTERVAL 1 MONTH ORDER BY cur.FirstOfMonth;
 - > Filter: (p.rental_id is not null) (cost= 1636. 75 rows= 16125 )
 - > Table scan on p (cost= 1636. 75 rows= 16125 )
 - > Si姚ngl远e-r^ o^ w^ i^ n^ d^ 微ex 信loo号ku：p oyna ro uysuinagn PaRcIeM^ A^ R^ Y^ (^ r^ e^ n^ t^ a个l_人id=公p.r众en号tal：_id数) 据(co慧st=眼 0. 25 rows= 1
-
+```
 
 ### 对比两个 SQL 语句的执行计划
 
