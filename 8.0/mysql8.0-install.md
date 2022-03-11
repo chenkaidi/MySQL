@@ -1,6 +1,8 @@
 1、安装数据库
 
-```json
+```
+#!/bin/bash
+
 if id -u mysql >/dev/null 2>&1; then
         echo "user exists"
 else
@@ -99,7 +101,7 @@ sleep 20
 
 2、设置master1
 
-```json
+```
 #!/bin/bash
 cp /etc/my.cnf  /etc/my.cnf-`date +%s`
 cat  > /etc/my.cnf  <<eof
